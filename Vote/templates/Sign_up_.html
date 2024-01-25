@@ -21,25 +21,34 @@
 
     <section class="dark-background pt-5 ">
         <div class="container from_con bg-light d-flex justify-content-center">
-            <form class=" p-2 mt-5" action="">
+            <form class=" p-2 mt-5" action="{% url 'sign_up_data_collect' %}" method="post" onsubmit="return validateForm()">
+                 {% csrf_token %}
+
                 <div class="form_hadding d-flex justify-content-center">
                         <span class="fw-bold fh">Create Account</span>
+
                 </div>
                 <div class="mt-4">
-                    <label class="form_la" for="">Name</label><br>
-                    <input class="from_in bg-light" type="text">
+                    <label class="form_la" for="username">Name</label><br>
+                    <input class="from_in bg-light" id="username" type="text">
+                    <span id="usernameError"  style="color:red;margin-top:10px; display:flex;" ></span>
+
                 </div>
                 <div class="mt-4">
-                    <label class="form_la" for="">Gmail</label><br>
-                    <input class="from_in bg-light" type="email">
+                    <label class="form_la" for="email">Gmail</label><br>
+                    <input class="from_in bg-light" id="email" type="email">
+                    <span id="emailError" style="color:red;margin-top:10px; display:flex;"></span>
+
                 </div>
                 <div class="mt-4">
-                    <label class="form_la" for="">Password</label><br>
-                    <input class="from_in bg-light" type="password">
+                    <label class="form_la" for="password">Password</label><br>
+                    <input class="from_in bg-light" id="password"  type="password">
+                    <span id="passwordError" style="color:red;margin-top:10px; display:flex;"></span>
                 </div>
                 <div class="mt-4">
-                    <label class="form_la" for="">Confirm Password</label><br>
-                    <input class="from_in bg-light" type="password">
+                    <label class="form_la" for="confirmPassword">Confirm Password</label><br>
+                    <input class="from_in bg-light" id="confirmPassword" type="password">
+                    <span id="confirmPasswordError" style="color:red;margin-top:10px; display:flex;"></span>
                 </div>
                 <div class="mt-4 d-flex justify-content-center">
                     <button class="form_btn bg-light" type="submit">Sign
@@ -52,7 +61,60 @@
 
 
 
+<script>
+        function validateForm() {
+            // Get form input values
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
+            var password = document.getElementById('password').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
 
+            // Reset error messages
+            document.getElementById('usernameError').innerHTML = '';
+            document.getElementById('emailError').innerHTML = '';
+            document.getElementById('passwordError').innerHTML = '';
+            document.getElementById('confirmPasswordError').innerHTML = '';
+
+            // Validate username
+            if (username === '') {
+                document.getElementById('usernameError').innerHTML = 'Username is required';
+                return false;
+            }
+
+            // Validate email
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').innerHTML = 'Invalid email address';
+                return false;
+            }
+
+            // Validate password
+            if (password === '') {
+                document.getElementById('passwordError').innerHTML = 'Password is required';
+                return false;
+            }
+
+            if (password.length < 8) {
+                document.getElementById('passwordError').innerHTML = 'Password must be at least 8 characters long';
+                return false;
+            }
+
+            // Validate confirm password
+            if (confirmPassword === '') {
+                document.getElementById('confirmPasswordError').innerHTML = 'Please confirm your password';
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').innerHTML = 'Passwords do not match';
+                return false;
+            }
+
+            // If everything is valid, you can perform further actions like submitting the form or redirecting to another page
+            alert('Registration successful!');
+            return true;
+        }
+    </script>
 
 
 
