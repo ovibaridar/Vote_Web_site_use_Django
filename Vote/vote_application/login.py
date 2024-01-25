@@ -2,4 +2,4 @@ from django.shortcuts import render
 
 
 def login(request):
-    return render(request, 'login.html')
+    return render(request, 'vote_application/login.html')

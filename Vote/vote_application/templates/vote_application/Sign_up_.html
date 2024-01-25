@@ -5,7 +5,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="static/css/style.css">
+    {% load static%}
+    <link rel="stylesheet" href="{% static 'vote_application/css/style.css' %}">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
@@ -17,11 +18,11 @@
 
 <body>
 
-    {%include 'navbar.html'%}
+    {%include 'vote_application/navbar.html'%}
 
     <section class="dark-background pt-5 ">
         <div class="container from_con bg-light d-flex justify-content-center">
-            <form class=" p-2 mt-5" action="{% url 'sign_up_data_collect' %}" method="post" onsubmit="return validateForm()">
+            <form class=" p-2 mt-5" action="sign_up_data_collect" method="post" onsubmit="return validateForm()">
                  {% csrf_token %}
 
                 <div class="form_hadding d-flex justify-content-center">
