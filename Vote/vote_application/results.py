@@ -17,3 +17,6 @@ def results(request):
         user_display = 'd-none'
         return render(request, 'vote_application/results.html',
                       {'button_dispalay': button_dispalay, 'user_display': user_display})
+
+
+
