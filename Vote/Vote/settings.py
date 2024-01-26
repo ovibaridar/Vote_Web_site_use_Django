@@ -111,6 +111,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+AUTHENTICATION_BACKENDS = ['vote_application.backends.EmailBackend', 'django.contrib.auth.backends.ModelBackend']
 
 
 # Default primary key field type

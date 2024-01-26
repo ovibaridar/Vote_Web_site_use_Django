@@ -1,37 +1,76 @@
+{%include 'vote_application/nav.html'%}
 <section>
-        <!-- nav_bar start -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand mb-2" href="{% url 'Home' %}" >
-                    {% load static%}
-                    <img src="{% static 'vote_application/img/hadding_logo .png' %}" alt width="50" height="40">
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+    <!-- nav_bar start -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand mb-2" href="{% url 'Home' %}">
+                {% load static%}
+                <img src="{% static 'vote_application/img/hadding_logo .png' %}" alt width="50" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold active c_ol" aria-current="page" href="" >Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold active c_ol" aria-current="page"  href="{% url 'create_poll' %}"  >Creat
-                                Poll</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold active c_ol" aria-current="page"   href="{% url 'results' %}" >Polls</a>
-                        </li>
-                    </ul>
-                    <section class="d-flex">
-                        <a  href="{% url 'login' %}"><button class=" me-2 btn btn-outline-success"  type="submit">Login
-                            </button></a>
-                        <a href="{% url 'sign_up' %}"><button class="btn btn-outline-info"  type="submit">Sign
-                                up</button></a>
-                    </section>
-                </div>
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold active c_ol" aria-current="page" href="">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold active c_ol" aria-current="page" href="{% url 'create_poll' %}">Creat
+                            Poll</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-bold active c_ol" aria-current="page" href="{% url 'results' %}">Polls</a>
+                    </li>
+                </ul>
+                <section class="{{button_dispalay}}">
+                    <a href="{% url 'login' %}">
+                        <button class=" me-2 btn btn-outline-success" type="submit">Login
+                        </button>
+                    </a>
+                    <a href="{% url 'sign_up' %}">
+                        <button class="btn btn-outline-info" type="submit">Sign
+                            up
+                        </button>
+                    </a>
+                </section>
+
+
+                <section class=" {{user_display}} user-dropdown" onclick="toggleDropdown()">
+                    <span class="text-light" id="username">{{username}}</span>
+                    <div class="dropdown-content me-5" id="dropdownContent">
+                        <a href="{% url 'logout' %}" onclick="logout()">Logout</a>
+                    </div>
+                </section>
+
+
+
+
             </div>
-        </nav>
-        <!-- nav_bar stop -->
-    </section>
+        </div>
+    </nav>
+
+    <script>
+    function toggleDropdown() {
+        var dropdownContent = document.getElementById("dropdownContent");
+        dropdownContent.style.display = (dropdownContent.style.display === "block") ? "none" : "block";
+    }
+
+    function logout() {
+
+        alert("Logout clicked!");
+    }
+    window.addEventListener("click", function(event) {
+        var dropdownContent = document.getElementById("dropdownContent");
+        if (event.target.closest('.user-dropdown') !== null) {
+            return;
+        }
+        dropdownContent.style.display = "none";
+    });
+
+    </script>
+
+    <!-- nav_bar stop -->
+</section>
