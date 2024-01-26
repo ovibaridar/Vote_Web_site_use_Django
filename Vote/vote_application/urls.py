@@ -17,5 +17,6 @@ urlpatterns = [
     path('log_in_', login.log_in_, name='log_in_'),
     path('logout/', logout.user_logout, name='logout'),
     path('create_poll', creat_poll.creat_poll, name='create_poll'),
+    path('save_data', creat_poll.save_data, name='save_data'),
     path('results', results.results, name='results'),
 ]

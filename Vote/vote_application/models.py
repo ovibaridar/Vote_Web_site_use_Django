@@ -1,12 +1,10 @@
 from django.db import models
 
 
-# Create your models here.
-
-class sign_up(models.Model):
-    name = models.CharField(max_length=30)
-    gmail = models.CharField(max_length=50)
-    password = models.CharField(max_length=100)
+class CreatePoll(models.Model):
+    id = models.AutoField(primary_key=True)
+    que = models.CharField(max_length=30)
+    polls = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.gmail
+        return str(self.id)

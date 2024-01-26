@@ -1,6 +1,6 @@
 # views.py
 from django.shortcuts import render, redirect
-from .models import sign_up as SignUpModel  # Rename the model to avoid conflict
+  # Rename the model to avoid conflict
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
 

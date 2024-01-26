@@ -12,119 +12,78 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <title>Results</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-
-
 </head>
 
 <body>
 
-    {%include 'vote_application/navbar.html'%}
+    {% include 'vote_application/navbar.html' %}
+    <!-- Your HTML template structure -->
+    {% load custom_filters %}
 
+    <!-- Rest of your HTML template -->
 
     <section class="dark-background pt-5 ">
-
         <div class="container">
-
             <div class="row">
+                {% for poll in polls %}
                 <div class="col-lg-4 mt-3">
                     <div class="example-div p-4">
-
-
-                        <div id="q_div" class="" style="height: 300px; width: 300; display: block;">
+                        <div id="q_div_{{ poll.id }}" style="height: 300px; width: 300; display: block;">
                             <div class="d-flex">
                                 <form class="form">
-                                    <section class='poll_que mb-1'>Whats your job section ?</section>
+                                    <section class='poll_que mb-1'>{{poll.que}}</section>
+                                    {% for option in poll.polls|split:", " %}
                                     <div>
-                                        <input id="Web" class="redio_b" type="radio" name="size" checked> <label
-                                            for="Web" class="redio_label">
-                                            Web</label>
+                                        <input id="{{option}}" value="{{option}}" class="redio_b" type="radio" name="poll_{{ poll.id }}" checked>
+                                        <label for="{{option}}" class="redio_label">{{option}}</label>
                                     </div>
-
-                                    <div>
-                                        <input id="Android" class="redio_b" type="radio" name="size"> <label
-                                            for="Android" class="redio_label">
-                                            Android </label>
-                                    </div>
-                                    <div>
-                                        <input id="Machine" class="redio_b" type="radio" name="size"> <label
-                                            for="Machine" class="redio_label">
-                                            Machine Learning </label>
-                                    </div>
-                                    <div>
-                                        <input id="Data" class="redio_b" type="radio" name="size"> <label for="Data"
-                                            class="redio_label"> Data
-                                            Scientist </label>
-                                    </div>
-                                    <div>
-                                        <input id="Solver" class="redio_b" type="radio" name="size"> <label for="Solver"
-                                            class="redio_label">
-                                            Solver </label>
-                                    </div>
+                                    {% endfor %}
                                     <div class='mt-2 button_div d-flex justify-content-center'>
                                         <button class="vote me-2">Vote</button>
-
                                     </div>
-
                                 </form>
-                                <button id="" class="results mt-auto" onclick="next_s()">Results</button>
+                                <button class="results mt-auto" onclick="toggleView('{{ poll.id }}')">Results</button>
                             </div>
-
                             <hr style="color: #3d4450;">
                             <span style="color: #4c6584;">1233,1 votes</span>
                         </div>
 
-
-
-                        <div class="mt-4" id="op_div" style="height: 300px; width: 300; display: none;">
+                        <div class="mt-4" id="op_div_{{ poll.id }}" style="height: 300px; width: 300; display: none;">
                             <div style="width:380px;">
                                 <!-- Create a canvas element inside the div to render the bar graph -->
-                                <canvas id="myBarChart"></canvas>
-                                <div  class='mt-2 button_div d-flex justify-content-center'>
-                                    <button onclick="vote_index()" class="vote me-2">Vote</button>
+                                <canvas id="myBarChart_{{ poll.id }}"></canvas>
+                                <div class='mt-2 button_div d-flex justify-content-center'>
+                                    <button onclick="vote_index('{{ poll.id }}')" class="vote me-2">Vote</button>
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </div>
-
-
+                {% endfor %}
             </div>
-
-
-
-
         </div>
-
     </section>
 
-
-
     <script>
-        var ctx = document.getElementById('myBarChart').getContext('2d');
+        {% for poll in polls %}
+        var ctx_{{ poll.id }} = document.getElementById('myBarChart_{{ poll.id }}').getContext('2d');
 
-        // Define the data for the bar graph
-        var data = {
-            labels: ['Label 1', 'Label 2', 'Label 3', 'Label 4'],
+        var data_{{ poll.id }} = {
+            labels: [{% for option in poll.polls|split:", " %}'{{ option }}',{% endfor %}],
             datasets: [{
                 label: 'My Bar Graph',
-                data: [10, 20, 15, 100], // Data values for each bar
-                backgroundColor: ['red', 'blue', 'green', 'orange'], // Bar colors
-                borderColor: 'white', // Border color
-                borderWidth: 1,// Border width
+                data: [10, 15, 100],
+                backgroundColor: ['red', 'blue', 'green', 'orange'],
+                borderColor: 'white',
+                borderWidth: 1,
                 barThickness: 20
-
             }]
         };
 
-        // Create the bar graph
-        var myBarChart = new Chart(ctx, {
+        var myBarChart_{{ poll.id }} = new Chart(ctx_{{ poll.id }}, {
             type: 'bar',
-            data: data,
+            data: data_{{ poll.id }},
             options: {
-                // Additional options (if needed)
                 scales: {
                     y: {
                         beginAtZero: true
@@ -132,22 +91,29 @@
                 }
             }
         });
+        {% endfor %}
 
+        function toggleView(pollId) {
+            var qDiv = document.getElementById('q_div_' + pollId);
+            var opDiv = document.getElementById('op_div_' + pollId);
 
-        function next_s() {
-            // Hide div1 and show div2
-            document.getElementById('q_div').style.display = 'none';
-            document.getElementById('op_div').style.display = 'block';
+            if (qDiv.style.display === 'block') {
+                qDiv.style.display = 'none';
+                opDiv.style.display = 'block';
+            } else {
+                qDiv.style.display = 'block';
+                opDiv.style.display = 'none';
+            }
         }
-        function vote_index() {
-            // Hide div1 and show div2
-            document.getElementById('q_div').style.display = 'block';
-            document.getElementById('op_div').style.display = 'none';
-        }
 
+        function vote_index(pollId) {
+            var qDiv = document.getElementById('q_div_' + pollId);
+            var opDiv = document.getElementById('op_div_' + pollId);
+
+            qDiv.style.display = 'block';
+            opDiv.style.display = 'none';
+        }
     </script>
-
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"

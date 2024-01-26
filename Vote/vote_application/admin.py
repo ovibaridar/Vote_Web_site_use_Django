@@ -1,6 +1,6 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import sign_up
+from .models import CreatePoll
 
-admin.site.register(sign_up)
+admin.site.register(CreatePoll)
