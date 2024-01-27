@@ -52,7 +52,7 @@
                             <button class="results mt-auto" onclick="toggleView('{{ poll.id }}')">Results</button>
                         </div>
                         <hr style="color: #3d4450;">
-                        <span style="color: #4c6584;">1233,1 votes</span>
+                        <span style="color: #4c6584;">{{poll.total_vote}} votes</span>
                     </div>
 
                     <div class="mt-4" id="op_div_{{ poll.id }}" style="height: 300px; width: 300; display: none;">
@@ -79,7 +79,7 @@
             labels: [{% for option in poll.polls|split:", " %}'{{ option }}',{% endfor %}],
             datasets: [{
                 label: 'My Bar Graph',
-                data: [10, 15, 100],
+                data: {{poll.values}},
                 backgroundColor: ['red', 'blue', 'green', 'orange'],
                 borderColor: 'white',
                 borderWidth: 1,

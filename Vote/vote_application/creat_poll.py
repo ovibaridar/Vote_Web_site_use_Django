@@ -59,27 +59,23 @@ def count_vote(request):
 
         except:
 
-            index = 0
-            polls_value_list = list(map(int, polls_value.split(',')))
+            # Assuming polls_value is a string like "1,2,3" and option_name is the option to be incremented
+            polls_value_list = list(map(int, polls_value.strip('[]').split(',')))# Convert values to integers
+            poll_options = list(map(str, poll_options.split(',')))  # Create a list of poll options
 
+            cleaned_list = [item.strip() for item in poll_options]
+
+            index = cleaned_list.index(option_name)
+            polls_value_list[index] = polls_value_list[index] + 1
+            total_poll = 0
             for i in range(len(polls_value_list)):
-                if poll_options[i] == option_name:
+                total_poll += polls_value_list[i]
 
-                    index = i
-                    break
-            else:
-                # This block will be executed if the loop completes without a break
-                # Add your error handling logic here or raise an exception if needed
-                print(f"Option '{option_name}' not found in poll_options")
+            poll_to_update = CreatePoll.objects.get(pk=poll_id)
 
-            polls_value_list[index] += 1
-            polls_value = ','.join(map(str, polls_value_list))  # Increment and convert back to string
-
-            print("ok", poll_options)
-            print(polls_value)
-            print(index)
-            print(option_name)
-
-            # count_vote_user.objects.create(just_id=poll_id, email=user_email)
+            poll_to_update.values = polls_value_list
+            poll_to_update.total_vote = total_poll
+            poll_to_update.save()
+            count_vote_user.objects.create(just_id=poll_id, email=user_email)
 
     return redirect('results')
