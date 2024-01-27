@@ -78,9 +78,9 @@
         var data_{{ poll.id }} = {
             labels: [{% for option in poll.polls|split:", " %}'{{ option }}',{% endfor %}],
             datasets: [{
-                label: 'My Bar Graph',
+                label: 'Off Display',
                 data: {{poll.values}},
-                backgroundColor: ['red', 'blue', 'green', 'orange'],
+                backgroundColor: ['red', 'blue', 'green', 'orange','yellow'],
                 borderColor: 'white',
                 borderWidth: 1,
                 barThickness: 20
